@@ -1,0 +1,29 @@
+#3.2
+library(stats)
+#Creation of a matrix where the p-values will be stored
+pmat<-matrix(NA,length(GED_norm[,1]),5)
+row.names(pmat)<-row.names(GED_norm)
+colnames(pmat)<-c("TG","TherA","TherB","TherC","TherD")
+#Application of a while-loop and a for-loop in order to perform the t-test and compute the p-values
+o=11
+p=20
+r=1
+while (p<=60){
+  for(i in 1:length(pmat[,1])){
+    pmat[i,r]<-t.test(as.numeric(GED_norm[i,o:p]),y=(as.numeric(GED_norm[i,1:10])))$p.value
+  }
+  o<-o+10
+  p<-p+10
+  r<-r+1
+}
+print(head(pmat))
+
+#Creation of a matrix where the adjusted p-values (q-values) will be stored
+qmat<-matrix(NA,length(pmat[,1]),5)
+row.names(qmat)<-row.names(pmat)
+colnames(qmat)<-colnames(pmat)
+#Application of a for loop in order to compute the q-values
+for (j in 1:5){
+   qmat[,j]<-p.adjust(pmat[,j],method="BH")
+}
+print(head(qmat))
