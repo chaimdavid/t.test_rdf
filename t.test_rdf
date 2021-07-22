@@ -1,4 +1,3 @@
-#3.2
 library(stats)
 #Creation of a matrix where the p-values will be stored
 pmat<-matrix(NA,length(GED_norm[,1]),5)
